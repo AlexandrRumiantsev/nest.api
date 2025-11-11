@@ -22,13 +22,17 @@
             "id": "1",
             "name": "Admin",
             "family": "Admin",
-            "role": "admin"
+            "role": "admin",
+            "login": "admin",
+            "password": "admin"
         },
         {
             "id": "2",
             "text": "User",
             "family": "User",
-            "role": "user"
+            "role": "user",
+            "login": "user",
+            "password": "user"
         }
     ]
 }

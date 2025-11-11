@@ -1,121 +1,49 @@
-import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux'
 
 function Login() {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const [form, setForm] = useState({
-        name: '',
-        family: '',
-        errorText: [],
-    })
+    const { register, handleSubmit, reset, formState: { errors }, setError } = useForm()
 
-    const checkboxRef = useRef()
-
-    async function validate() {
-        // Из React
-        console.log('Данные из формы (управляемой)')
-        console.log(form)
-        if (!form.family || !form.name) {
-            // выводим сообщение
-            console.log('фамилия или имя не введены')
-            setForm((prevState) => ({
-                ...prevState,
-                errorText: [...prevState.errorText, 'фамилия или имя не введены']
-            }))
-            return false
-        } else {
-            setForm((prevState) => ({
-                ...prevState,
-                errorText: []
-            }))
-        }
-
-        console.log('Данные из формы (не управляемой)')
-        console.log(checkboxRef.current.checked)
-
-        if (!checkboxRef.current.checked) {
-            setForm((prevState) => ({
-                ...prevState,
-                errorText: [...prevState.errorText, 'Чек бокс не проставлен']
-            }))
-
-            return false
-        }
-
-        return true
-    }
-
-    function login(event) {
-
-        console.log('Сработал логин')
-        event.preventDefault();
-        // Из чистого JS
-        console.log(event.target.parentNode.querySelector('input[name="name"]').value)
-
-        // Запретить отправку формы, если:
-        // 1 - Если не заполнен name или family
-        // 2 - Если не протавлена голочка - запомнить
-
-        // Необходимо выводить уведомление пользователю
-
-        // авторизовываемся
-
-        // Отправим запрос на сервер
-        validate().then(
-            (result) => result && fetch('http://localhost:5000/users')
-        ).then(
+    async function onSubmit({login, password}) {
+         // Отправим запрос на сервер
+        const data = await fetch(`http://localhost:5000/users?login=${encodeURIComponent(login)}&password=${encodeURIComponent(password)}`).then(
             response => response && response.json()
-        ).then(data => {
+        )
 
-            if(!data)
-                return
+        if (!!data.length) {
 
-            const result = data.find(user => form.name === user.name && form.family === user.family)
-            console.log('result',result)
+           dispatch({
+             type: 'AUTH',
+             payload: data[0]
+           })
 
-            if (result) {
-                navigate('/')
-            } else {
-                setForm((prevState) => ({
-                    ...prevState,
-                    errorText: [...prevState.errorText, 'Пользователь с таким именем и фамилией не найден']
-                }))
-            }
-        })
-       
+           navigate('/')
 
-
-        
+        } else {
+            setError('auth', { message: 'Такого пользователя не существует' });
+        }
 
     }
 
-    function handleInutChange(event) {
-        //console.log(event.target.name)
-        // console.log(event.target.value)
-         setForm((prevState) => {
-            console.log('prevState',prevState)
-            return {
-                ...prevState,
-                [event.target.name]: event.target.value
-            }
-         })
-
-
+    function handleReset (event) {
+        event.preventDefault();
+        reset();
     }
 
     return (
-        <form>
-            <input type="text" name="name" value={form.name} onChange={handleInutChange}/>
-            <input type="text" name="family" value={form.family} onChange={handleInutChange}/>
-            <input type="submit" value="Войти" onClick={login} />
-            <input type="checkbox" ref={checkboxRef} name='checkbox'/>Запомнить
-            {!!form.errorText.length && (
-                <div>
-                    {form.errorText.map( error => <p>{error}</p>) }
-                </div>
-            )}
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <p><input type="text" {...register('login', { required: true })} /></p>
+            <p>{errors.login && <span style={{ color: 'red' }}>Это поле обязательно!</span>}</p>
+            <p><input type="password" {...register('password', { required: true })} /></p>
+            <p>{errors.password && <span style={{ color: 'red' }}>Это поле обязательно!</span>}</p>
+            <input type="submit" value="Войти" />
+            <p><button onClick={(e) => handleReset(e)}>Очистить форму</button></p>
+            <p>{errors.auth && <span style={{ color: 'red' }}>{errors.auth.message}</span> }</p>
         </form>
     )
 }

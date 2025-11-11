@@ -4,7 +4,7 @@ import { fetchTasks } from '../../store/actions/tasks'
 
 function Main() {
 
-    const list = useSelector((state) => state.list)
+    const list = useSelector((state) => state.tasks.list)
     const dispatch = useDispatch()
 
     useEffect(() => {
