@@ -1,0 +1,34 @@
+{
+    "tasks": [
+        {
+            "id": "sadsadasdasdas",
+            "title": "Убрать мусор"
+        },
+        {
+            "id": "sadsadasdsadas",
+            "title": "Помыть полы"
+        },
+        {
+            "id": "aSAsaSAsaSasa",
+            "title": "Накормить кота"
+        },
+        {
+            "id": "asaSasaSA",
+            "title": "Сходить на улицу"
+        }
+    ],
+    "users": [
+        {
+            "id": "1",
+            "name": "Admin",
+            "family": "Admin",
+            "role": "admin"
+        },
+        {
+            "id": "2",
+            "text": "User",
+            "family": "User",
+            "role": "user"
+        }
+    ]
+}
