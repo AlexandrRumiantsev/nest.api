@@ -1,11 +1,17 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchTasks } from '../../store/actions/tasks'
+import { logout } from '../../store/actions/user'
+import { useNavigate, Link } from 'react-router-dom';
+
+
 
 function Main() {
 
     const list = useSelector((state) => state.tasks.list)
+    const user = useSelector((state) => state.user.user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(fetchTasks())
@@ -53,14 +59,35 @@ function Main() {
     }
     const delitList = () => dispatch({ type: 'DELETE_TASKS' });
 
+    function logoutUser() {
+        dispatch(logout())
+        navigate('/login')
+    }
+
+    const linkUserOption = {
+        pathname: `/user/${user.id}`
+    }
+
     return (
         <>
+            <Link to={linkUserOption}>{user.family} {user.name}</Link>
+            (<button onClick={() => logoutUser()}>Выйти</button>)
             <button onClick={delitList}>Удалить весь список</button>
             <button onClick={addItem}>Добавить задачу</button>
+            <hr/>
             {list?.map((item) => {
+
+                const link = `/task/${item.id}`
+
+                const linkOption = {
+                    pathname: link,
+                    // Добавляем гет параметр
+                    search: `id=${item.id}`,
+                }
+
                 return (
                     <div key={item.id}>
-                        {item.title}
+                        <Link to={linkOption}>{item.title}</Link>
                         {/* {тут мы сделали что бы функция не вызвалась сразу, 
                 добавили анонимную функцию} */}
                         <button onClick={() => removeItem(item.id)}>Удалить</button>

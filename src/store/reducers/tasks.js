@@ -1,6 +1,7 @@
 // начальное состояние
 const initialState = {
-    list: []
+    list: [],
+    item: null
 }
 
 // рельюсеры
@@ -11,6 +12,11 @@ export default function tasksReducer(state = initialState, action) {
             return {
                 ...state,
                 list: action.payload
+            }
+        case 'SET_TASK': 
+            return {
+                ...state,
+                item: action.payload[0]
             }
         case 'DELETE_TASKS':
             return {

@@ -1,6 +1,8 @@
 import './App.css';
 import Login from './components/Login/Login';
 import Main from './components/Main/Main';
+import TaskItem from './components/TaskItem/TaskItem'
+import UserItem from './components/UserItem/UserItem'
 import MainLayout from './components/MainLayout/MainLayout';
 import PrivateRouter from './components/PrivateRouter/PrivateRouter'
 import { PersistGate } from 'redux-persist/integration/react';
@@ -10,8 +12,6 @@ import {RouterProvider, createBrowserRouter} from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store';
 import { persistor } from './store'
-
-console.log('persistor',persistor)
 
 const Router = createBrowserRouter([
    {
@@ -23,6 +23,24 @@ const Router = createBrowserRouter([
                (
                   <PrivateRouter>
                      <Main />
+                  </PrivateRouter>
+               ),
+            },
+            {
+               path: '/task/:id',
+               element:
+               (
+                  <PrivateRouter>
+                     <TaskItem />
+                  </PrivateRouter>
+               ),
+            },
+             {
+               path: '/user/:id',
+               element:
+               (
+                  <PrivateRouter>
+                     <UserItem />
                   </PrivateRouter>
                ),
             },
