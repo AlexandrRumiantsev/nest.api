@@ -1,12 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import { DatabaseCheckService } from './utils/database-check-service';
 
-@Controller()
+@Controller('health')
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly dbCheckService: DatabaseCheckService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get('check-database')
+  async checkDatabaseHealth(): Promise<string> {
+    return await this.dbCheckService.checkConnection();
   }
 }
