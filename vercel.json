@@ -13,7 +13,7 @@
       },
       {
         "src": "(.*)",
-        "dest": "main.ts"
+        "dest": "main.js"
       }
     ]
 }
