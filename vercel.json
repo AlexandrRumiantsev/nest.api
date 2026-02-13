@@ -17,5 +17,11 @@
           "DELETE"
         ]
       }
+    ],
+    "rewrites": [
+      {
+        "source": "/swagger-ui/(.*)",
+        "destination": "/_next/static/swagger-ui/$1"
+      }
     ]
 }
