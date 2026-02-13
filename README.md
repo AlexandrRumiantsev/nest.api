@@ -10,4 +10,12 @@
 - passport 
 - passport-jwt 
 - jsonwebtoken bcrypt
-# backend
+
+
+## Локальный дебаг прод версии
+
+1) npm run build
+2) cd dist    
+3) cp ../.env .
+4) npm install 
+5) node main.js 
