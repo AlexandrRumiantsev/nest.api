@@ -6,21 +6,21 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Example API')
-    .setDescription('Documentation for Example API')
+    .setTitle('Your API Title')
+    .setDescription('Description of Your API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
+
   SwaggerModule.setup('api', app, document, {
     swaggerOptions: {
-      urls: [{ url: '/api/openapi.json', name: 'API v1' }],
-      customCss: '',
-      customJs: ''
+      urls: [{ url: '/api-openapi.json', name: 'API v1' }]
     }
   });
 
   await app.listen(3000);
 }
+
 bootstrap();
