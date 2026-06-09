@@ -22,9 +22,15 @@ async function bootstrap() {
     catch (error) {
         console.error("❌ Ошибка:", error.message);
     }
-    const express = require('express');
-    app.use(express.static(path.join(__dirname, '..')));
-    console.log('📂 Статические файлы из корня подключены.');
+    const adapter = app.getHttpAdapter();
+    if (adapter && typeof adapter.use === 'function') {
+        const express = require('express');
+        adapter.use(express.static(path.join(__dirname, '..')));
+        console.log('📂 Статические файлы подключены.');
+    }
+    else {
+        console.warn('⚠️ Не удалось подключить статику: адаптер недоступен.');
+    }
     const uiConfig = new swagger_1.DocumentBuilder().build();
     swagger_1.SwaggerModule.setup('api', app, () => swagger_1.SwaggerModule.createDocument(app, uiConfig));
     await app.listen(3000);
