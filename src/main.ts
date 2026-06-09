@@ -1,8 +1,6 @@
-// src/main.ts
-
 import { NestFactory } from '@nestjs/core';
-import * as path from 'path'; // Для работы с путями к файлам
-import * as fs from 'fs';     // Для записи файла на диск
+import * as path from 'path';
+import * as fs from 'fs';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
@@ -20,13 +18,13 @@ async function bootstrap() {
         const documentForFile = SwaggerModule.createDocument(app, config);
         const outputFilePath = path.join(__dirname, '..', 'api-openapi.json');
         fs.writeFileSync(outputFilePath, JSON.stringify(documentForFile, null, 2));
-        console.log(`✅ УСПЕХ: Файл спецификации создан в корне проекта.`);
+        console.log(`✅ УСПЕХ: Файл спецификации api-openapi.json создан.`);
 
     } catch (error) {
-        console.error("❌ Ошибка при генерации файла:", error.message);
+        console.error("❌ Ошибка:", error.message);
     }
 
-    const express = require('express');
+    const express = require('express'); 
     
     app.use(express.static(path.join(__dirname, '..')));
     console.log('📂 Статические файлы из корня подключены.');

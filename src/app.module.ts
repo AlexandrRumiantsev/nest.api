@@ -11,6 +11,7 @@ import { HttpExceptionFilter } from './app.exception.filter';
 import { APP_FILTER } from '@nestjs/core';
 import { JwtGuard } from './utils/jwt-guard';
 import { SomeModule } from './some-module';
+import { SwaggerController } from './swagger.controller'; // <-- НОВЫЙ ИМПОРТ
 
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -34,7 +35,7 @@ dotenv.config();
     AuthModule,
     SomeModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, SwaggerController],
   providers: [
     AppService,
     JwtGuard,

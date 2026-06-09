@@ -17,10 +17,10 @@ async function bootstrap() {
         const documentForFile = swagger_1.SwaggerModule.createDocument(app, config);
         const outputFilePath = path.join(__dirname, '..', 'api-openapi.json');
         fs.writeFileSync(outputFilePath, JSON.stringify(documentForFile, null, 2));
-        console.log(`✅ УСПЕХ: Файл спецификации создан в корне проекта.`);
+        console.log(`✅ УСПЕХ: Файл спецификации api-openapi.json создан.`);
     }
     catch (error) {
-        console.error("❌ Ошибка при генерации файла:", error.message);
+        console.error("❌ Ошибка:", error.message);
     }
     const express = require('express');
     app.use(express.static(path.join(__dirname, '..')));

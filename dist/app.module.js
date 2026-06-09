@@ -18,6 +18,7 @@ const app_exception_filter_1 = require("./app.exception.filter");
 const core_1 = require("@nestjs/core");
 const jwt_guard_1 = require("./utils/jwt-guard");
 const some_module_1 = require("./some-module");
+const swagger_controller_1 = require("./swagger.controller");
 const dotenv = require("dotenv");
 dotenv.config();
 let AppModule = class AppModule {
@@ -43,7 +44,7 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             some_module_1.SomeModule,
         ],
-        controllers: [app_controller_1.AppController],
+        controllers: [app_controller_1.AppController, swagger_controller_1.SwaggerController],
         providers: [
             app_service_1.AppService,
             jwt_guard_1.JwtGuard,

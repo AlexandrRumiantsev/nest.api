@@ -15,6 +15,20 @@
         ]
       }
     },
+    "/api": {
+      "get": {
+        "operationId": "SwaggerController_getSwaggerUi",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Swagger"
+        ]
+      }
+    },
     "/api/users/{id}": {
       "get": {
         "operationId": "UsersController_findOne",
