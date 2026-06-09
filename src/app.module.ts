@@ -1,3 +1,5 @@
+// src/app.module.ts
+
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -10,9 +12,9 @@ import { APP_FILTER } from '@nestjs/core';
 import { JwtGuard } from './utils/jwt-guard';
 import { SomeModule } from './some-module';
 
-
 import * as dotenv from 'dotenv';
 dotenv.config();
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -38,6 +40,5 @@ dotenv.config();
     JwtGuard,
     { provide: APP_FILTER, useClass: HttpExceptionFilter }
   ],
-
 })
 export class AppModule {}

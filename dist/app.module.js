@@ -17,6 +17,7 @@ const auth_module_1 = require("./modules/common/auth/auth.module");
 const app_exception_filter_1 = require("./app.exception.filter");
 const core_1 = require("@nestjs/core");
 const jwt_guard_1 = require("./utils/jwt-guard");
+const some_module_1 = require("./some-module");
 const dotenv = require("dotenv");
 dotenv.config();
 let AppModule = class AppModule {
@@ -33,13 +34,14 @@ exports.AppModule = AppModule = __decorate([
                 username: process.env.MYSQL_USER,
                 password: process.env.MYSQL_PASSWORD,
                 database: process.env.MYSQL_DATABASE,
-                entities: ['dist/**/*.entity.{ts,js}'],
+                entities: [__dirname + '/**/*.entity.js'],
                 synchronize: true,
                 logging: true,
             }),
             users_module_1.UsersModule,
             post_module_1.PostsModule,
             auth_module_1.AuthModule,
+            some_module_1.SomeModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [

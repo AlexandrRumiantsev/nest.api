@@ -1,6 +1,6 @@
-import { AppService } from './app.service';
+import { DatabaseCheckService } from './utils/database-check-service';
 export declare class AppController {
-    private readonly appService;
-    constructor(appService: AppService);
-    getHello(): string;
+    private readonly dbCheckService;
+    constructor(dbCheckService: DatabaseCheckService);
+    checkDatabaseHealth(): Promise<string>;
 }

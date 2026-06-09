@@ -1,26 +1,43 @@
+// src/main.ts
+
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import * as path from 'path'; // Для работы с путями к файлам
+import * as fs from 'fs';     // Для записи файла на диск
 import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule);
 
-  const config = new DocumentBuilder()
-    .setTitle('Your API Title')
-    .setDescription('Description of Your API')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
+    console.log('Генерация спецификации OpenAPI...');
+    try {
+        const config = new DocumentBuilder()
+          .setTitle('NEAT API')
+          .setDescription('API документация проекта NEAT')
+          .setVersion('1.0')
+          .build();
 
-  const document = SwaggerModule.createDocument(app, config);
+        const documentForFile = SwaggerModule.createDocument(app, config);
+        const outputFilePath = path.join(__dirname, '..', 'api-openapi.json');
+        fs.writeFileSync(outputFilePath, JSON.stringify(documentForFile, null, 2));
+        console.log(`✅ УСПЕХ: Файл спецификации создан в корне проекта.`);
 
-  SwaggerModule.setup('api', app, document, {
-    swaggerOptions: {
-      urls: [{ url: '/api-openapi.json', name: 'API v1' }]
+    } catch (error) {
+        console.error("❌ Ошибка при генерации файла:", error.message);
     }
-  });
 
-  await app.listen(3000);
+    const express = require('express');
+    
+    app.use(express.static(path.join(__dirname, '..')));
+    console.log('📂 Статические файлы из корня подключены.');
+
+    const uiConfig = new DocumentBuilder().build();
+    SwaggerModule.setup('api', app, () =>
+      SwaggerModule.createDocument(app, uiConfig),
+    );
+
+    await app.listen(3000);
+    console.log('🚀 Сервер запущен на порту 3000');
 }
 
 bootstrap();
