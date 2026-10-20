@@ -9,8 +9,11 @@ export class SwaggerController {
   
   @Get()
   getSwaggerUi(@Res() res: Response) {
-    // Путь к файлу index.html внутри установленной библиотеки
-    const filePath = path.join(__dirname, '..', 'node_modules', 'swagger-ui-dist', 'index.html');
+    // Путь к файлу index.html внутри установленной библиотеки.
+    // require.resolve() вычисляет реальный путь к пакету и работает на Vercel,
+    // в отличие от жёсткого пути через __dirname.
+    const swaggerUiDistPath = path.dirname(require.resolve('swagger-ui-dist/package.json'));
+    const filePath = path.join(swaggerUiDistPath, 'index.html');
     
     // Отправляем этот файл браузеру
     return res.sendFile(filePath);
